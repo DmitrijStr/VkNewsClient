@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Vk News Client</string>
+    <string name="navigation_item_main">Главная</string>
+    <string name="navigation_item_favourite">Избранное</string>
+    <string name="navigation_item_profile">Профиль</string>
+    <string name="content_text">Кабаныч когда узнал, что если сотрудникам не платить они начинают умирать от голода</string>
+</resources>
