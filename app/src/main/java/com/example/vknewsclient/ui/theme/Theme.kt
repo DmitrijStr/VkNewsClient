@@ -12,9 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Black900,
+    primary = Color.White,
     primaryContainer = Black900,
-    secondary = Black900,
+    secondary = Color.White,
     tertiary = Black900,
     onPrimary = Color.White,
     onSecondary = Black900,
@@ -26,10 +26,9 @@ private val LightColorScheme = lightColorScheme(
     primaryContainer = Color.White,
     secondary = Color.White,
     tertiary = Color.White,
-    onPrimary = Black500,
+    onPrimary = Black900,
     onSecondary = Black500,
     surfaceVariant = Black500
-
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -50,10 +49,10 @@ fun VkNewsClientTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+//            val context = LocalContext.current
+//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//        }
 
         darkTheme -> DarkColorScheme
         else -> LightColorScheme

@@ -34,19 +34,27 @@ import com.example.vknewsclient.ui.theme.VkNewsClientTheme
 fun PostCard(
     modifier: Modifier = Modifier,
     feedPost: FeedPost,
-    onFooterIconClickListener: (StatisticItem) -> Unit
+    onLikeClickListener: (StatisticItem) -> Unit,
+    onShareClickListener: (StatisticItem) -> Unit,
+    onViewsClickListener: (StatisticItem) -> Unit,
+    onCommentClickListener: (StatisticItem) -> Unit,
 ) {
     Card(
         modifier = modifier
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             CardPostHeader(feedPost = feedPost)
+            Spacer(modifier = Modifier.height(8.dp))
             CardPostText(feedPost = feedPost)
+            Spacer(modifier = Modifier.height(8.dp))
             CardPostImage(feedPost = feedPost)
             Spacer(modifier = Modifier.height(8.dp))
             CardPostFooter(
                 statistics = feedPost.statistics,
-                onIconClickListener = onFooterIconClickListener
+                onViewsClickListener = onViewsClickListener,
+                onShareClickListener = onShareClickListener,
+                onLikeClickListener = onLikeClickListener,
+                onCommentClickListener = onCommentClickListener
             )
         }
     }
@@ -83,7 +91,7 @@ private fun CardPostHeader(
 
 @Composable
 private fun CardPostText(feedPost: FeedPost) {
-    Text(text = feedPost.contentText)
+    Text(text = feedPost.contentText, color = MaterialTheme.colorScheme.secondary)
 }
 
 @Composable
@@ -122,8 +130,10 @@ private fun IconWithText(
 @Composable
 private fun CardPostFooter(
     statistics: List<StatisticItem>,
-    onIconClickListener: (StatisticItem) -> Unit
-
+    onLikeClickListener: (StatisticItem) -> Unit,
+    onShareClickListener: (StatisticItem) -> Unit,
+    onViewsClickListener: (StatisticItem) -> Unit,
+    onCommentClickListener: (StatisticItem) -> Unit,
 ) {
     val views = statistics.getItemByType(StatisticType.VIEWS)
     val shares = statistics.getItemByType(StatisticType.SHARES)
@@ -137,7 +147,7 @@ private fun CardPostFooter(
                 iconResId = R.drawable.ic_views_count,
                 text = views.count.toString(),
                 onIconClickListener = {
-                    onIconClickListener(views)
+                    onViewsClickListener(views)
                 })
         }
 
@@ -146,21 +156,21 @@ private fun CardPostFooter(
                 iconResId = R.drawable.ic_share,
                 text = shares.count.toString(),
                 onIconClickListener = {
-                    onIconClickListener(shares)
+                    onShareClickListener(shares)
 
                 })
             IconWithText(
                 iconResId = R.drawable.ic_comment,
                 text = comments.count.toString(),
                 onIconClickListener = {
-                    onIconClickListener(comments)
+                    onCommentClickListener(comments)
 
                 })
             IconWithText(
                 iconResId = R.drawable.ic_like,
                 text = likes.count.toString(),
                 onIconClickListener = {
-                    onIconClickListener(likes)
+                    onLikeClickListener(likes)
                 })
         }
     }
@@ -175,7 +185,12 @@ private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticIte
 @Composable
 fun FeedCardPreviewLight() {
     VkNewsClientTheme(darkTheme = false) {
-        PostCard(feedPost = FeedPost(), onFooterIconClickListener = {})
+        PostCard(
+            feedPost = FeedPost(),
+            onLikeClickListener = {},
+            onShareClickListener = {},
+            onViewsClickListener = {},
+            onCommentClickListener = {})
     }
 }
 
@@ -183,6 +198,11 @@ fun FeedCardPreviewLight() {
 @Composable
 fun FeedCardPreviewDark() {
     VkNewsClientTheme(darkTheme = true) {
-        PostCard(feedPost = FeedPost(), onFooterIconClickListener = {})
+        PostCard(
+            feedPost = FeedPost(),
+            onLikeClickListener = {},
+            onShareClickListener = {},
+            onViewsClickListener = {},
+            onCommentClickListener = {})
     }
 }
