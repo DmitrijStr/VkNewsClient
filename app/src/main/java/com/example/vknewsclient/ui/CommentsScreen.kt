@@ -22,11 +22,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.vknewsclient.CommentsViewModel
+import com.example.vknewsclient.CommentsViewModelFactory
 import com.example.vknewsclient.domain.FeedPost
 import com.example.vknewsclient.domain.PostComment
 import com.example.vknewsclient.ui.theme.VkNewsClientTheme
@@ -34,39 +38,52 @@ import com.example.vknewsclient.ui.theme.VkNewsClientTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommentsScreen(
+    onBackPressed: () -> Unit,
     feedPost: FeedPost,
-    comments: List<PostComment>
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Comments for FeedPost id: ${feedPost.id}"
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null
+    val viewModel: CommentsViewModel = viewModel(
+        factory = CommentsViewModelFactory(feedPost)
+    )
+
+    val screenState = viewModel.screenState.collectAsState()
+    val currentState = screenState.value
+    if (currentState is CommentsScreenState.Comments) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Comments for FeedPost id: ${feedPost.id}"
                         )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            onBackPressed()
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null
+                            )
+                        }
                     }
+                )
+            }
+        ) { paddingValues ->
+            LazyColumn(
+                modifier = Modifier.padding(paddingValues),
+                contentPadding = PaddingValues(
+                    top = 16.dp,
+                    start = 8.dp,
+                    end = 8.dp,
+                    bottom = 8.dp
+                )
+            ) {
+                items(
+                    items = currentState.comments,
+                    key = { it.id }
+                ) { comment ->
+                    CommentItem(comment)
                 }
-            )
-        }
-    ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier.padding(paddingValues),
-            contentPadding = PaddingValues(
-                top = 16.dp,
-                start = 8.dp,
-                end = 8.dp,
-                bottom = 8.dp
-            )
-        ) {
-            items(items = comments, key = { it.id }) { comment ->
-                CommentItem(comment)
             }
         }
     }
@@ -112,16 +129,9 @@ private fun CommentItem(comment: PostComment) {
 @Composable
 private fun CommentsScreenPreview() {
     VkNewsClientTheme(darkTheme = false) {
-        CommentsScreen(feedPost = FeedPost(), comments = List(20) {
-            PostComment(it)
-        })
+        CommentsScreen(
+            onBackPressed = {},
+            feedPost = FeedPost(),
+        )
     }
 }
-
-//@Preview
-//@Composable
-//private fun CommentPreview() {
-//    VkNewsClientTheme {
-//        CommentItem(comment = PostComment(id = 0))
-//    }
-//}

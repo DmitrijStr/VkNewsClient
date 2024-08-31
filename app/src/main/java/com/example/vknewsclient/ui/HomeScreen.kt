@@ -1,5 +1,6 @@
 package com.example.vknewsclient.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,15 +15,42 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.vknewsclient.MainViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.vknewsclient.NewsFeedViewModel
+import com.example.vknewsclient.domain.FeedPost
+
+@Composable
+fun HomeScreen(paddingValues: PaddingValues, onCommentClickListener: (feedPost: FeedPost) -> Unit) {
+    val viewModel: NewsFeedViewModel = viewModel()
+
+    val screenState = viewModel.screenState.collectAsState()
+
+    when (val currentState = screenState.value) {
+        is NewsFeedScreenState.Posts -> {
+            FeedPosts(
+                paddingValues = paddingValues,
+                viewModel = viewModel,
+                posts = currentState.posts,
+                onCommentClickListener = onCommentClickListener
+            )
+        }
+
+        NewsFeedScreenState.Initial -> {
+
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(viewModel: MainViewModel, paddingValues: PaddingValues) {
-    val feedState = viewModel.feedState.collectAsState()
-
+private fun FeedPosts(
+    paddingValues: PaddingValues,
+    viewModel: NewsFeedViewModel,
+    posts: List<FeedPost>,
+    onCommentClickListener: (feedPost: FeedPost) -> Unit
+) {
     LazyColumn(modifier = Modifier.padding(paddingValues)) {
-        items(feedState.value, key = { it.id }) { post ->
+        items(posts, key = { it.id }) { post ->
             val state = rememberSwipeToDismissBoxState(
                 confirmValueChange = { value ->
                     when (value) {
@@ -35,6 +63,7 @@ fun HomeScreen(viewModel: MainViewModel, paddingValues: PaddingValues) {
                         }
 
                         SwipeToDismissBoxValue.Settled -> {
+
                         }
                     }
                     return@rememberSwipeToDismissBoxState true
@@ -52,9 +81,7 @@ fun HomeScreen(viewModel: MainViewModel, paddingValues: PaddingValues) {
             {
                 PostCard(modifier = Modifier.padding(horizontal = 8.dp),
                     feedPost = post,
-                    onCommentClickListener = { statisticItem ->
-                        viewModel.updateCount(post, statisticItem)
-                    },
+                    onCommentClickListener = { onCommentClickListener(post) },
                     onLikeClickListener = { statisticItem ->
                         viewModel.updateCount(post, statisticItem)
                     },
