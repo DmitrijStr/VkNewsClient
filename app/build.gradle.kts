@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.vknewsclient"
+    namespace = "com.strezh.vknewsclient"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.vknewsclient"
+        applicationId = "com.strezh.vknewsclient"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -59,8 +59,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.gson)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.android.sdk.core)
+    implementation(libs.com.vk.android.sdk.api)
+
+    implementation(libs.coil.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
