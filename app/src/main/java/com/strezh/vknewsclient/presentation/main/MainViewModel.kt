@@ -1,7 +1,6 @@
-package com.strezh.vknewsclient
+package com.strezh.vknewsclient.presentation.main
 
 import androidx.lifecycle.ViewModel
-import com.strezh.vknewsclient.ui.AuthState
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAuthenticationResult
 import kotlinx.coroutines.flow.MutableStateFlow

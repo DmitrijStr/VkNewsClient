@@ -1,4 +1,4 @@
-package com.strezh.vknewsclient.ui
+package com.strezh.vknewsclient.samples
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

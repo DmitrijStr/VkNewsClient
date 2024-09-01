@@ -1,4 +1,4 @@
-package com.strezh.vknewsclient.ui
+package com.strezh.vknewsclient.presentation.comments
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -29,8 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.strezh.vknewsclient.CommentsViewModel
-import com.strezh.vknewsclient.CommentsViewModelFactory
 import com.strezh.vknewsclient.domain.FeedPost
 import com.strezh.vknewsclient.domain.PostComment
 import com.strezh.vknewsclient.ui.theme.VkNewsClientTheme

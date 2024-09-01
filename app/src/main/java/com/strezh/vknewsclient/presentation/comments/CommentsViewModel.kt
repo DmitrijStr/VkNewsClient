@@ -1,9 +1,8 @@
-package com.strezh.vknewsclient
+package com.strezh.vknewsclient.presentation.comments
 
 import androidx.lifecycle.ViewModel
 import com.strezh.vknewsclient.domain.FeedPost
 import com.strezh.vknewsclient.domain.PostComment
-import com.strezh.vknewsclient.ui.CommentsScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

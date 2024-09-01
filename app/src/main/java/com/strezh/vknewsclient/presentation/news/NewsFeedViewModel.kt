@@ -1,9 +1,8 @@
-package com.strezh.vknewsclient
+package com.strezh.vknewsclient.presentation.news
 
 import androidx.lifecycle.ViewModel
 import com.strezh.vknewsclient.domain.FeedPost
 import com.strezh.vknewsclient.domain.StatisticItem
-import com.strezh.vknewsclient.ui.NewsFeedScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

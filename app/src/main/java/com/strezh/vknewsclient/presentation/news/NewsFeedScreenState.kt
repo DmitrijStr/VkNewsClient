@@ -1,4 +1,4 @@
-package com.strezh.vknewsclient.ui
+package com.strezh.vknewsclient.presentation.news
 
 import com.strezh.vknewsclient.domain.FeedPost
 
