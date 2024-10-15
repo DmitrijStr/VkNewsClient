@@ -14,24 +14,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.strezh.vknewsclient.navigation.AppNavGraph
 import com.strezh.vknewsclient.navigation.rememberNavigationState
 import com.strezh.vknewsclient.presentation.comments.CommentsScreen
 import com.strezh.vknewsclient.presentation.news.NewsFeedScreen
-import com.strezh.vknewsclient.ui.theme.VkNewsClientTheme
 
 @Composable
 fun MainScreen() {
     val navigationState = rememberNavigationState()
 
     Log.d("MainScreen", "navigationState ${navigationState}")
+    Log.d("RECOMPOSITION", "MainScreen")
 
     Scaffold(
-        modifier = Modifier.padding(8.dp),
         bottomBar = {
             NavigationBar {
                 val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
@@ -78,7 +75,7 @@ fun MainScreen() {
                     }
                 )
             },
-            commentsScreenContent = {feedPost ->
+            commentsScreenContent = { feedPost ->
                 CommentsScreen(
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
@@ -101,21 +98,5 @@ fun MainScreen() {
                 )
             }
         )
-    }
-}
-
-@Preview
-@Composable
-fun MainScreenPreviewLight() {
-    VkNewsClientTheme(darkTheme = false) {
-        MainScreen()
-    }
-}
-
-@Preview
-@Composable
-fun MainScreenPreviewDark() {
-    VkNewsClientTheme(darkTheme = true) {
-        MainScreen()
     }
 }

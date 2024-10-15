@@ -1,4 +1,4 @@
-package com.strezh.vknewsclient.presentation.main
+package com.strezh.vknewsclient.domain.entity
 
 sealed class AuthState {
     object Authorized: AuthState()

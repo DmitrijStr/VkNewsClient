@@ -1,4 +1,4 @@
-package com.strezh.vknewsclient.domain
+package com.strezh.vknewsclient.domain.entity
 
 data class StatisticItem(
     val type: StatisticType,

@@ -1,7 +1,7 @@
 package com.strezh.vknewsclient.presentation.comments
 
-import com.strezh.vknewsclient.domain.FeedPost
-import com.strezh.vknewsclient.domain.PostComment
+import com.strezh.vknewsclient.domain.entity.FeedPost
+import com.strezh.vknewsclient.domain.entity.PostComment
 
 sealed class CommentsScreenState {
 

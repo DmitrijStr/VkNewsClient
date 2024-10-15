@@ -1,25 +1,23 @@
 package com.strezh.vknewsclient.presentation.main
 
 import androidx.lifecycle.ViewModel
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKAuthenticationResult
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.viewModelScope
+import com.strezh.vknewsclient.domain.usecases.CheckAuthStateUseCase
+import com.strezh.vknewsclient.domain.usecases.GetAuthStateFlowUseCase
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel: ViewModel() {
+class MainViewModel @Inject constructor(
+    private val getAuthStateFlowUseCase: GetAuthStateFlowUseCase,
+    private val checkAuthStateUseCase: CheckAuthStateUseCase
 
-    private val _authState: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Initial)
-    val authState = _authState.asStateFlow()
+) : ViewModel() {
 
-    init {
-        _authState.value = if (VK.isLoggedIn()) AuthState.Authorized else AuthState.NonAuthorized
-    }
+    val authState = getAuthStateFlowUseCase()
 
-    fun performAuthResult(result: VKAuthenticationResult) {
-        if (result is VKAuthenticationResult.Success) {
-            _authState.value = AuthState.Authorized
-        } else {
-            _authState.value = AuthState.NonAuthorized
+    fun performAuthResult() {
+        viewModelScope.launch {
+            checkAuthStateUseCase()
         }
     }
 }

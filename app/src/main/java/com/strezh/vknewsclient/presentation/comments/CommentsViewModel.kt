@@ -1,25 +1,25 @@
 package com.strezh.vknewsclient.presentation.comments
 
+import android.app.Application
+import android.view.View
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
-import com.strezh.vknewsclient.domain.FeedPost
-import com.strezh.vknewsclient.domain.PostComment
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.strezh.vknewsclient.data.repository.NewsFeedRepositoryImpl
+import com.strezh.vknewsclient.domain.entity.FeedPost
+import com.strezh.vknewsclient.domain.usecases.GetCommentsUseCase
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class CommentsViewModel(
-    feedPost: FeedPost
+class CommentsViewModel @Inject constructor(
+    private val getCommentsUseCase: GetCommentsUseCase,
+    private val feedPost: FeedPost
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow<CommentsScreenState>(CommentsScreenState.Initial)
-    val screenState: StateFlow<CommentsScreenState> = _screenState
-
-    private fun loadComments(feedPost: FeedPost) {
-        val comments = List(10) { PostComment(id = it) }
-
-        _screenState.value = CommentsScreenState.Comments(feedPost, comments)
-    }
-
-    init {
-        loadComments(feedPost)
-    }
+    val screenState = getCommentsUseCase(feedPost)
+        .map {
+            CommentsScreenState.Comments(
+                feedPost = feedPost,
+                comments = it
+            ) as CommentsScreenState
+        }
 }

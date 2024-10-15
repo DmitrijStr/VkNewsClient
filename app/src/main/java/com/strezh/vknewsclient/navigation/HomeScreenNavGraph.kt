@@ -6,11 +6,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
-import com.strezh.vknewsclient.domain.FeedPost
+import com.strezh.vknewsclient.domain.entity.FeedPost
 import com.google.gson.Gson
 
 fun NavGraphBuilder.homeScreenNavGraph(
-    commentsScreenContent: @Composable (feedPost: FeedPost) -> Unit,
+    commentsScreenContent: @Composable (FeedPost) -> Unit,
     newsFeedScreenContent: @Composable () -> Unit,
 ) {
     navigation(
